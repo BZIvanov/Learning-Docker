@@ -1,0 +1,25 @@
+# this is how we make comments (free text which is ignored)
+# indentation (white spaces) is very important
+
+app: my-app
+# for strings with special characters we need to use double quotes
+description: "This is my awesome app\nEnjoy it."
+port: 3000
+version: 1.0.0
+# attributes is object with key:value pairs
+attributes:
+  users: true
+  limit: 100
+  # both below are equal, V2 is more simple way of expressing simple types like number
+  previousLimits:
+    - 90
+    - 50
+  previousLimitsV2: [90, 50]
+# this is example for a list
+previousVersions:
+  - 0.0.9
+  - 0.0.5
+multiLineExample: |
+  this the first line
+  this is the second
+  third...

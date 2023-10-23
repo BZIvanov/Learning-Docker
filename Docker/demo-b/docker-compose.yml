@@ -1,0 +1,9 @@
+version: '3.9'
+services:
+  my-redis-server: # this is how our redis container will be called
+    image: redis # we use image from the docker hub, so we use key image and value the image from the docker hub
+  my-app:
+    restart: 'on-failure' # restart policy for the container, https://docs.docker.com/config/containers/start-containers-automatically/
+    build: . # here we will use custom image based on our Dockerfile, which is in current folder
+    ports:
+      - '3000:3000'
