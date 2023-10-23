@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  my-react-app:
+    build:
+      context: .
+      dockerfile: Dockerfile # we could use just 'build: .' but this way we can specify different docker file name, like Docker.dev if we needed that
+    volumes:
+      - '.:/usr/app' # colon ':' present here and we create reference for the app container folder to present working directory locally
+      - /usr/app/node_modules # no colon ':' in this command so we only mark this folder and use it from the container. We want to preserve it when docker is moving local files to the container
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true # this env variable is because bug with windows unable to detect file changes on the react project

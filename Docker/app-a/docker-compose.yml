@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_PASSWORD: postgres_password
+  redis:
+    image: 'redis:latest' # here we take already built image from docker hub
+  nginx:
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - '3000:80'
+  api:
+    build: # here we specify based on which file we will build our custom image
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - /usr/app/node_modules
+      - './server:/usr/app'
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PG_USER=postgres
+      - PG_HOST=postgres
+      - PG_PORT=5432
+      - PG_DATABASE=postgres
+      - PG_PASSWORD=postgres_password
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    volumes:
+      - /usr/app/node_modules
+      - './client:/usr/app'
+  worker:
+    build:
+      context: ./worker
+      dockerfile: Dockerfile
+    volumes:
+      - /usr/app/node_modules
+      - './worker:/usr/app'
